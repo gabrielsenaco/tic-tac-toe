@@ -14,15 +14,15 @@ I integrated HTML / CSS / JS to work synchronously in all parts of the applicati
 
 **JS was divided into 5 parts:**
 
-- storageController
+- **storageController**
 responsible for controlling localStorage
-- displayController
+- **displayController**
 responsible for controlling all changes in the page's html (the visual part)
-- gameBoard
+- **gameBoard**
 responsible for controlling all parts of the game and its settings
-- player
+- **player**
 responsible for playing the role of the normal player
-- aiPlayer
+- **aiPlayer**
 responsible for playing the role of the AI player
 
 **HTML records visual information so that CSS can work on it.**
