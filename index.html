@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Tic Tac Toe</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/reset.css">
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&family=Yatra+One&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@tabler/icons@latest/iconfont/tabler-icons.min.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>Tic Tac Toe Game</h1>
+    <div id="game-intro-text">
+      <p>Welcome to the Game! Have a Fun!</p>
+      <p>Setup your game mode or just click on Start Button to Start Game.</p>
+    </div>
+    <div id="game-status-home">
+      <div id="settings">
+        <p class="setting-difficult">Difficult</p>
+        <p class="setting-playmode">Playmode</p>
+        <p class="setting-status">Status</p>
+        <span id="setting-dificult-value">Easy</span>
+        <span id="setting-playmode-value">Versus AI</span>
+        <span id="setting-status-value">Not started</span>
+      </div>
+      <p id="log-message-intro">log message</p>
+      <span id="log-message">Click on Start Game button to start.</span>
+    </div>
+    <div id="end-game">
+      <h2 id="end-game-title">The Player (X/O)(AI Player) won!</h2>
+      <p id="end-game-trophy"><i class="ti ti-trophy"></i></p>
+      <p id="end-game-subtitle">Congratulations!</p>
+    </div>
+  </header>
+
+  <section id="game-difficult" class="section-card card" disabled>
+    <div class="section-intro">
+      <h3 class="section-title">Choose Difficult</h3>
+      <button class="btn btn-open section-btn"><i class="ti ti-chevron-down"></i></button>
+      <button class="btn btn-close section-btn"><i class="ti ti-chevron-up"></i></button>
+      <p class="section-description">If you play with AI.</p>
+    </div>
+
+    <div class="section-options" id="difficult-options">
+      <button class="btn btn-difficult" data-difficult="1">Easy</button>
+      <button class="btn btn-difficult" data-difficult="2">Hard</button>
+      <button class="btn btn-difficult" data-difficult="3">Impossible</button>
+    </div>
+  </section>
+
+  <section id="game-playmode" class="section-card card" disabled>
+    <div class="section-intro">
+      <h3 class="section-title">Select Play Mode</h3>
+      <button class="btn btn-open section-btn"><i class="ti ti-chevron-down"></i></button>
+      <button class="btn btn-close section-btn"><i class="ti ti-chevron-up"></i></button>
+      <p class="section-description">Versus Player or Versus AI?</p>
+    </div>
+
+    <div class="section-options" id="playmode-options">
+      <div class="card playmode-option" data-playmode="1">
+        <div class="playmode-option-image"><i class="ti ti-device-laptop"></i></div>
+        <p class="playmode-option-description">Versus AI</p>
+      </div>
+      <div class="card playmode-option" data-playmode="2">
+        <div class="playmode-option-image"><i class="ti ti-users"></i>
+        </div>
+        <p class="playmode-option-description">Versus Player</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="game-home-actions">
+    <button class="btn btn-home-action" data-home-action="1">Start Game</button>
+    <button class="btn btn-home-action" data-home-action="2">Reset</button>
+  </section>
+
+  <main>
+    <div id="gameboard" disabled>
+      <div class="gameboard-item" data-marking="0" data-position="1">E</div>
+      <div class="gameboard-item" data-marking="0" data-position="2">E</div>
+      <div class="gameboard-item" data-marking="0" data-position="3">E</div>
+      <div class="gameboard-item" data-marking="0" data-position="4">E</div>
+      <div class="gameboard-item" data-marking="0" data-position="5">E</div>
+      <div class="gameboard-item" data-marking="0" data-position="6">E</div>
+      <div class="gameboard-item" data-marking="0" data-position="7">E</div>
+      <div class="gameboard-item" data-marking="0" data-position="8">E</div>
+      <div class="gameboard-item" data-marking="0" data-position="9">E</div>
+    </div>
+  </main>
+
+  <script type="text/javascript" src="js/scripts.js"></script>
+  <script>
+  document.write( '<script src="http://' + ( location.host || 'localhost' ).split(
+    ':' )[ 0 ] + ':35729/livereload.js?snipver=1"></' + 'script>' )
+
+  </script>
+</body>
+
+</html>
