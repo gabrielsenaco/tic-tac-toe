@@ -736,17 +736,26 @@ const aiPlayer = ( marking ) => {
     let boardGame = [ ...board ];
     let selectedPosition = 0;
     let emptyPositions = _getEmptyPositions( boardGame );
-
+    // TODO - FIX ALL CODE HERE.
     for ( let position of emptyPositions ) {
       let lastMarkingValue = boardGame[ position - 1 ];
       boardGame[ position - 1 ] = marking;
-
       if ( _hasScore( boardGame, marking ) ) {
         selectedPosition = position;
-        break;
+        return position;
       }
 
-      if ( !opponent ) {
+      boardGame[ position - 1 ] = lastMarkingValue;
+    }
+
+    if ( !opponent ) {
+      for ( let position of emptyPositions ) {
+        let lastMarkingValue = boardGame[ position - 1 ];
+        boardGame[ position - 1 ] = marking;
+        if ( _hasScore( boardGame, marking ) ) {
+          selectedPosition = position;
+          break;
+        }
 
         let opponentMarking = marking == markingType.X ? markingType.O :
           markingType.X;
@@ -768,12 +777,22 @@ const aiPlayer = ( marking ) => {
             break;
           }
 
-          let emptyPosition = _getEmptyPositionsOf( possibles[ 0 ].pattern,
+          let selectedPattern = undefined;
+          try {
+            selectedPattern = possibles.filter( ( ppattern ) => ppattern.pattern
+              .filter( ( position ) => position == 5 || position == 2 ).length ==
+              2 )[ 0 ].pattern;
+          } catch ( e ) {
+            selectedPattern = possibles[ 0 ].pattern;
+          }
+
+          let emptyPosition = _getEmptyPositionsOf( selectedPattern,
             boardGame )[ 0 ];
           selectedPosition = emptyPosition;
         }
+
+        boardGame[ position - 1 ] = lastMarkingValue;
       }
-      boardGame[ position - 1 ] = lastMarkingValue;
     }
 
     return selectedPosition;
