@@ -95,8 +95,11 @@ const storageController = ( () => {
   };
 
   const save = () => {
-    let settings = { difficult: gameBoard.getDifficult(), playmode: gameBoard
-        .getPlaymode() };
+    let settings = {
+      difficult: gameBoard.getDifficult(),
+      playmode: gameBoard
+        .getPlaymode()
+    };
     localStorage.setItem( "settings", JSON.stringify( settings ) );
   };
 
@@ -140,42 +143,25 @@ const displayController = ( () => {
   } )();
 
   const reveal_buttons = ( mainParentID ) => {
-    let mainParent = document.getElementById( mainParentID );
+    revealButtons = new Set();
+    const register = ( card ) => {
+      revealButtons.add( card );
+      card.firstElementChild.addEventListener( "click", ( event ) => {
+        card.toggleAttribute( "disabled" );
+        revealButtons.forEach( ( revealButton ) => {
+          if ( revealButton != card )
+            revealButton.setAttribute( "disabled", "" );
 
-    let openButton = mainParent.querySelector( ".btn.btn-open" );
-    let closeButton = mainParent.querySelector( ".btn.btn-close" );
-
-    let sectionIntro;
-
-    const _isValidContent = () => {
-      if ( mainParent == null || openButton == null || closeButton ==
-        null )
-        return false;
-      else
-        return true;
-    };
-
-    const _addEvent = () => {
-      if ( !_isValidContent() ) {
-        console.error( "Invalid Card Content to add RevealButton.", {
-          mainParent,
-          openButton,
-          closeButton
         } );
-        return;
-      } else {
-        sectionIntro = openButton.parentNode;
-      }
-      sectionIntro.addEventListener( "click", () => {
-        mainParent.toggleAttribute( "disabled" );
+
+        event.preventDefault();
       } );
     };
-
-    _addEvent();
+    document.querySelectorAll( ".section-card" ).forEach( ( card ) =>
+      register( card ) );
   };
 
-  reveal_buttons( "game-difficult" );
-  reveal_buttons( "game-playmode" );
+  reveal_buttons();
 
   const actions = ( () => {
 
@@ -635,7 +621,10 @@ const gameBoard = ( () => {
       let ai = players.filter( ( player ) => player.ai && !player.lastPlayer )[
         0 ];
       let position = ai.object.selectIdealPosition( difficult );
-      _sendPosition( position );
+      setTimeout( () => {
+        _sendPosition( position );
+      }, 250 );
+
     };
 
     return {
@@ -696,8 +685,16 @@ const gameBoard = ( () => {
   const setPlaymode = ( new_playmode ) => playmode = new_playmode;
   const setDifficult = ( new_difficult ) => difficult = new_difficult;
 
-  return { changeConfig, start, reset, game, getDifficult, getPlaymode,
-    setPlaymode, setDifficult };
+  return {
+    changeConfig,
+    start,
+    reset,
+    game,
+    getDifficult,
+    getPlaymode,
+    setPlaymode,
+    setDifficult
+  };
 } )();
 
 const player = ( marking ) => {
@@ -725,13 +722,17 @@ const aiPlayer = ( marking ) => {
     return total.positions;
   };
 
+  const _getEmptyPositionsOf = ( pattern, board ) => {
+    return pattern.filter( ( position ) => board[ position - 1 ] ==
+      markingType.E );
+  };
+
   const _hasScore = ( board, marking ) => {
     return gameBoard.game.markingController.markingWon( marking, board );
 
   };
 
-  const borders = [ 1, 3, 7, 9 ];
-  const _getBetterChoice = ( board, marking, impossible, opponent = false ) => {
+  const _getBetterChoice = ( board, marking, opponent = false ) => {
     let boardGame = [ ...board ];
     let selectedPosition = 0;
     let emptyPositions = _getEmptyPositions( boardGame );
@@ -750,18 +751,26 @@ const aiPlayer = ( marking ) => {
         let opponentMarking = marking == markingType.X ? markingType.O :
           markingType.X;
         let opponentResult = _getBetterChoice( boardGame,
-          opponentMarking, true, true );
+          opponentMarking, true );
 
         if ( opponentResult > 0 ) {
           selectedPosition = opponentResult;
           break;
         } else {
-          selectedPosition = position;
-          if ( impossible )
-            for ( let border of borders )
-              if ( boardGame[ border - 1 ] == markingType.E )
-                selectedPosition = border;
 
+          selectedPosition = position;
+          let possibles = gameBoard.game.markingController.getMarkingStatus(
+            marking, boardGame ).filter( ( possible ) => possible.win ==
+            2 );
+
+          if ( possibles.length == 0 ) {
+            selectedPosition = _easy();
+            break;
+          }
+
+          let emptyPosition = _getEmptyPositionsOf( possibles[ 0 ].pattern,
+            boardGame )[ 0 ];
+          selectedPosition = emptyPosition;
         }
       }
       boardGame[ position - 1 ] = lastMarkingValue;
@@ -777,8 +786,7 @@ const aiPlayer = ( marking ) => {
 
   const _hard = () => {
     if ( getRandomInt( 2 ) == 0 ) {
-      return _getBetterChoice( prototype.getBoard(), prototype.getMarking(),
-        false );
+      return _getBetterChoice( prototype.getBoard(), prototype.getMarking() );
     } else {
       return _easy();
     }
@@ -786,12 +794,9 @@ const aiPlayer = ( marking ) => {
 
   const _impossible = () => {
     if ( _getEmptyPositions( prototype.getBoard() ).find( ( position ) =>
-        position == 5 ) ) {
+        position == 5 ) )
       return 5;
-    }
-
-    return _getBetterChoice( prototype.getBoard(), prototype.getMarking(),
-      true );
+    return _getBetterChoice( prototype.getBoard(), prototype.getMarking() );
   };
 
   const selectIdealPosition = ( difficult ) => {
