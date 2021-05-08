@@ -25,6 +25,10 @@ responsible for playing the role of the normal player
 - **aiPlayer**
 responsible for playing the role of the AI player
 
-**HTML records visual information so that CSS can work on it.**
+**HTML**
+
+HTML records visual information so that CSS can work on it.
+
+**In short**
 
 With this, I am able to synchronize several components in a simple and clean way, since each one has its share to take care of.
