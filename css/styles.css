@@ -22,6 +22,7 @@ html {
 * {
   box-sizing: border-box;
   font-family: 'Fira Sans', sans-serif;
+  user-select: none;
 }
 
 body {
@@ -135,22 +136,21 @@ section {
   padding: 0;
   line-height: normal;
   cursor: default;
-  user-select: none;
 }
 
 #gameboard:not([disabled]) .gameboard-item {
   cursor: pointer;
 }
 
-.gameboard-item[data-marking="2"] {
+.gameboard-item[data-marker="2"] {
   color: var(--game-player-o);
 }
 
-.gameboard-item[data-marking="0"] {
+.gameboard-item[data-marker="0"] {
   color: whitesmoke;
 }
 
-.gameboard-item[data-marking="1"] {
+.gameboard-item[data-marker="1"] {
   color: var(--game-player-x);
 }
 
