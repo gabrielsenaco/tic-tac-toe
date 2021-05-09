@@ -324,7 +324,7 @@ const displayController = ( () => {
       let trophy = document.getElementById( "end-game-trophy" );
 
       if ( result == undefined ) {
-        title.textContent = "Draw!";
+        title.textContent = "Tie!";
         subtitle.textContent = "Congratulations for all!";
       } else {
         let aiPlayer = result.ai ? "(AI Player)" : "";
@@ -445,9 +445,7 @@ const gameBoard = ( () => {
     let ai = players.filter( ( player ) => player.ai && !player
       .lastPlayer )[ 0 ];
     let position = ai.object.selectIdealPosition( difficult );
-    setTimeout( () => {
-      _sendPosition( position );
-    }, 250 );
+    _sendPosition( position );
   };
 
   // BOARD INTERACTION
@@ -561,8 +559,7 @@ const gameBoard = ( () => {
 
   const _validateTieGame = ( pos, gamePossibles ) => {
     let opponent = pos == 1 ? 0 : 1;
-    return gamePossibles[ opponent ].points == 0 && gamePossibles[ pos ].points ==
-      1 && !getFirstPlayer().marker != gamePossibles[ pos ].marker;
+    return gamePossibles[ opponent ].points == 0 && gamePossibles[ pos ].points == 1 && !getFirstPlayer().marker != gamePossibles[ pos ].marker;
   }
 
   const checkWinner = () => {
