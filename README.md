@@ -3,7 +3,7 @@ The Tic Tac Toe Game to play in your browser
 
 ## How to play:
 
-1. click on link: https://gabrielsenaco.github.io/tic-tac-toe/
+1. click on link: https://gabesenacom.github.io/tic-tac-toe/
 2. (optional) select your options: difficult(easy, hard, impossible) and playmode(versus player or versus ai)
 3. click on start game button
 4. have a fun!
